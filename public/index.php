@@ -1,31 +1,39 @@
 <?php
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT_PATH', dirname(dirname(__FILE__)) );
-define('TPL_PATH', ROOT_PATH . DS . 'public' . DS . 'templates' );
 
-session_start(); # Ouverture des sessions
-
-require_once('library/Actu.php');
-require_once('library/User.php');
-require_once('library/Db.php');
-
-date_default_timezone_set('Europe/Paris'); # D�finition du Time Zone
-
-
-if (!User::isConnected()) {
-    $page = 'connexion.php';
-} else {
-    $page = ltrim($_SERVER['REQUEST_URI'], '/');
-    if ('' === $page){
-        $page = 'actu.php';
+define('APPLICATION_ENV', getenv('APPLICATION_ENV'));
+set_error_handler(
+    function($errno, $errstr) {
+        if(APPLICATION_ENV === 'development'){
+            echo 'Erreur générale : ' . $errstr;
+        } else {
+            echo 'Erreur générale';
+        }
     }
-}
 
+);
 
-ob_start();
-require_once('pages/' . $page);
-$pageContent = ob_get_contents();
-ob_end_clean();
+set_exception_handler(
+    function($e){
+        if(APPLICATION_ENV === 'development'){
+            echo 'Exception générale : '. $e->getMessage();
+        } else {
+            echo 'Exception générale';
+        } 
+    }
 
-require_once(TPL_PATH . DS . 'layout.php');
+);
 
+define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
+define('ROOT_PATH', dirname(dirname(__FILE__)));
+define('LIBRARY_PATH', ROOT_PATH . DS . 'library');
+define('CONFIG_PATH', ROOT_PATH . DS . 'application' . DS . 'configs');
+define('APPLICATION_PATH', ROOT_PATH . DS . 'application');
+
+set_include_path('/usr/local/zend/share/ZendFramework/library' . PS . LIBRARY_PATH );
+
+require_once('Zend/Application.php');
+$application = new Zend_Application(APPLICATION_ENV, CONFIG_PATH . DS . 'application.ini');
+$application->bootstrap()
+            ->run();
+            
