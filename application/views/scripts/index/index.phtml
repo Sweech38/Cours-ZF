@@ -1,1 +1,9 @@
-<h1>Index <?php echo $this->toto; ?></h1>
+<?php 
+    $this->headMeta()->appendName('Keywords','jdfsd');
+    $this->headMeta()->appendName('Description','rfgdgfghf');
+    $this->headTitle('titre de la page d\'accueil');
+    $this->headLink()->appendStylesheet('/css/style.css','screen');
+?>
+<h4>Index <?php echo $this->toto ?></h4>
+
+<p>Date du jour <?php echo $this->formatDate('2011-08-02') ?></p>

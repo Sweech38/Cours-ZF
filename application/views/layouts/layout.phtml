@@ -1,0 +1,38 @@
+<?php echo $this->doctype() . PHP_EOL ?>
+
+	<head>
+		<?php $this->headTitle()->setSeparator(' - ');
+		    $this->headTitle('Mon site');
+		    echo $this->headTitle() . PHP_EOL;
+		    
+		    $this->headLink()->appendStylesheet('/css/reset.css', 'all');
+		    $this->headLink()->appendStylesheet('/css/fonts.css', 'all');
+		    $this->headLink()->appendStylesheet('/css/style.css', 'all');
+		    echo $this->headLink() . PHP_EOL; 
+		    
+		    $this->headScript()->appendFile('/js/less-grid-4.js','text/javascript');
+		    echo $this->headScript() . PHP_EOL;
+		    
+		    $this->headMeta()->setHttpEquiv('Content-Type','text/html; charset=utf-8');
+		    echo $this->headMeta() . PHP_EOL;
+		    
+	    ?>
+	</head>
+	
+	<body>
+		<h4>App5 . IP FORMATION</h4>
+		<ul id="topNav">
+			<li><a href="/home">Index</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+		
+		<div id="page">
+			<?php echo $this->layout()->content ?>
+		</div>
+		
+		<div id="footer">
+			<p>Application PHP 5</p>
+		</div>
+	
+	
+	</body>
